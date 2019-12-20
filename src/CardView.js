@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
   Platform,
+  Dimensions
 } from "react-native";
 
 import defaultIcons from "./Icons";
@@ -15,7 +16,10 @@ import FlipCard from "react-native-flip-card";
 const BASE_SIZE = { width: 320, height: 200 };
 
 const s = StyleSheet.create({
-  cardContainer: {},
+  cardContainer: {
+    // backgroundColor:"black",
+    width:Dimensions.get("window").width
+  },
   cardFace: {},
   icon: {
     position: "absolute",

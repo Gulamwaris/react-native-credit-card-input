@@ -17,7 +17,9 @@ import { InjectedProps } from "./connectToState";
 
 const s = StyleSheet.create({
   container: {
-    marginLeft:50,
+    marginLeft:40,
+    marginRight:40,
+    // marginLeft:50,
     // marginRight:50
   },
   form: {
@@ -26,27 +28,30 @@ const s = StyleSheet.create({
   },
   inputContainer: {
     // marginLeft: 50
+    
   },
   inputLabel: {
-    marginTop:25,
+    // marginTop:25,
     fontSize:16,
     color:'#058584'
   },
   input: {
-    height: 40
+    height: 40,
+    backgroundColor:"#EFEFEF",
+    borderRadius: 10
   },
   expCvv:{
    display:'flex',
    flexDirection:'row',
    justifyContent:'space-between',
-   marginBottom:5 
+  //  marginBottom:5 
   }
 });
 
-const CVC_INPUT_WIDTH = 50;
-const EXPIRY_INPUT_WIDTH = 70;
+const CVC_INPUT_WIDTH = (Dimensions.get("window").width - 30)/2.5;
+const EXPIRY_INPUT_WIDTH = (Dimensions.get("window").width - 30)/2.5;
 const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
-const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - EXPIRY_INPUT_WIDTH - CARD_NUMBER_INPUT_WIDTH_OFFSET;
+const CARD_NUMBER_INPUT_WIDTH = Dimensions.get("window").width - 30;
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
 const POSTAL_CODE_INPUT_WIDTH = 120;
@@ -94,8 +99,9 @@ export default class CreditCardInput extends Component {
       postalCode: "34567",
     },
     inputContainerStyle: {
-      borderBottomWidth: 1,
-      borderBottomColor: "#058584",
+      // borderBottomWidth: 1,
+      // borderBottomColor: "#058584",
+      borderRadius:10
     },
     validColor: "",
     invalidColor: "red",
@@ -159,6 +165,7 @@ export default class CreditCardInput extends Component {
 
     return (
       <View style={s.container}>
+        <View style={s.conntainer}>
         <CreditCard focused={focused}
           brand={type}
           scale={cardScale}
@@ -170,7 +177,8 @@ export default class CreditCardInput extends Component {
           number={number}
           expiry={expiry}
           cvc={cvc} />
-        <ScrollView ref="Form"
+          </View>
+        <ScrollView ref="Form" 
           keyboardShouldPersistTaps="always"
           scrollEnabled={allowScroll}
           showsHorizontalScrollIndicator={false}
@@ -178,7 +186,11 @@ export default class CreditCardInput extends Component {
           <CCInput {...this._inputProps("number")}
             keyboardType="numeric"
             containerStyle={[s.inputContainer, inputContainerStyle, { width: CARD_NUMBER_INPUT_WIDTH }]} />
-            <View style={s.expCvv}>
+            
+          { requiresName &&
+            <CCInput {...this._inputProps("name")}
+              containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
+              <View style={s.expCvv}>
           <CCInput {...this._inputProps("expiry")}
             keyboardType="numeric"
             containerStyle={[s.inputContainer, inputContainerStyle, { width: EXPIRY_INPUT_WIDTH }]} />
@@ -186,9 +198,6 @@ export default class CreditCardInput extends Component {
             <CCInput {...this._inputProps("cvc")}
               keyboardType="numeric"
               containerStyle={[s.inputContainer, inputContainerStyle, { width: CVC_INPUT_WIDTH }]} /> }</View>
-          { requiresName &&
-            <CCInput {...this._inputProps("name")}
-              containerStyle={[s.inputContainer, inputContainerStyle, { width: NAME_INPUT_WIDTH }]} /> }
           { requiresPostalCode &&
             <CCInput {...this._inputProps("postalCode")}
               keyboardType="numeric"
